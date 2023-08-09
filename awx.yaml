@@ -1,0 +1,11 @@
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx-demo
+spec:
+  service_type: nodeport
+  postgres_configuration_secret: postgres-configuration
+  postgres_client_ssl_secret: postgres-client
+  bundle_cacert_secret: bundle-ca
+  no_log: false 

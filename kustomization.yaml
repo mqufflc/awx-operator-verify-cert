@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - github.com/mqufflc/awx-operator/config/default?ref=client-ssl-secret
+  - awx.yaml
+  - postgres_secret.yaml
+
+images:
+  - name: quay.io/ansible/awx-operator
+    newName: mqufflc/awx-operator
+    newTag: latest
+
+namespace: awx
+secretGenerator:
+  - name: bundle-ca
+    files:
+      - bundle-ca.crt=<path-to-ca-certificate>
+    options:
+      disableNameSuffixHash: true
+  - name: postgres-client
+    files:
+      - tls.crt=<path-to-client-certificate>
+      - tls.key=<path-to-client-key>
+    type: kubernetes.io/tls
+    options:
+      disableNameSuffixHash: true
