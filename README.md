@@ -61,3 +61,11 @@ Once logged in you can check if your connection to the database is encrypted wit
 ## AWX set up
 
 Once you have your client certificat + provate key and the Certificate Authority cert, you can configure AWX to use them to authenticate to your DB instance.
+
+You need to configure AWX to trust the CA cert. Put it in a secret and set the secret name in the `bundle_cacert_secret` field of the AWX specs. (See [docs](https://github.com/ansible/awx-operator/blob/8391ed3501ff326647485b7272e537942da0dd68/docs/user-guide/database-configuration.md))
+
+You also need to give AWX a TLS secret containing the client cert and key. Set the secret name in the `postgres_client_ssl_secret` field of the AWX specs.
+
+Don't forget to set up the `postgres_configuration_secret` with your postgresql instance connection info. (See [docs](https://github.com/ansible/awx-operator/blob/8391ed3501ff326647485b7272e537942da0dd68/docs/user-guide/advanced-configuration/trusting-a-custom-certificate-authority.md))
+
+You should be good to go and start your AWX instance.
